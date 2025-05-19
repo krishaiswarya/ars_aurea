@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bathroom Interior Detail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f5f0e1;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+  <nav class="sticky top-0 p-4">
+    <div class="flex items-center">
+      <a href="index.html#home" class="flex items-center space-x-2">
+        <img src="logoint1.png" alt="ARS AUREA Logo" class="rounded-full w-12">
+        <p style="position: relative; float: left;">HOME</p>
+      </a>
+    </div>
+  </nav>
+  <div class="max-w-4xl w-full">
+    <div class="relative overflow-hidden">
+      <img id="image" src="" alt="Image Detail" class="h-[500px] w-auto mx-auto rounded-xl shadow-xl transition-all duration-300" />
+      <button id="prevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/60 text-white p-3 rounded-full shadow hover:bg-black/80 transition"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+      <button id="nextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/60 text-white p-3 rounded-full shadow hover:bg-black/80 transition"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="mt-6 text-center">
+      <h2 id="title" class="text-2xl font-bold" style="color: #41261f;"></h2>
+      <button id="shareBtn" class="mt-4 px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
+        Share This Image
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      { src: 'bat1.jpg', title: 'Design 1'},
+      { src: 'bat2.jpg', title: 'Design 2'},
+      { src: 'bat3.jpg', title: 'Design 3'},
+      { src: 'bat1.jpg', title: 'Design 4'},
+      { src: 'bat2.jpg', title: 'Design 5'},
+      { src: 'bat1.jpg', title: 'Design 6'},
+      { src: 'bat2.jpg', title: 'Design 7'},
+      { src: 'bat3.jpg', title: 'Design 8'},
+      { src: 'bat2.jpg', title: 'Design 9'},
+      { src: 'bat3.jpg', title: 'Design 10'},
+      { src: 'bat1.jpg', title: 'Design 11'},
+      { src: 'bat2.jpg', title: 'Design 12'},
+      { src: 'bat3.jpg', title: 'Design 13'},
+      { src: 'bat1.jpg', title: 'Design 14'},
+      { src: 'bat2.jpg', title: 'Design 15'},
+      { src: 'bat1.jpg', title: 'Design 16'},
+      { src: 'bat2.jpg', title: 'Design 17'},
+      { src: 'bat3.jpg', title: 'Design 18'},
+      { src: 'bat1.jpg', title: 'Design 19'},
+      { src: 'bat2.jpg', title: 'Design 20'},
+     
+];
+    
+    const params = new URLSearchParams(window.location.search);
+    const startSrc = params.get("src");
+    let currentIndex = images.findIndex(img => img.src === startSrc);
+    if (currentIndex === -1) currentIndex = 0;
+
+    const imageEl = document.getElementById("image");
+    const titleEl = document.getElementById("title");
+    const shareBtn = document.getElementById("shareBtn");
+
+    function updateView(index) {
+      const img = images[index];
+      imageEl.src = img.src;
+      titleEl.textContent = img.title;
+    }
+
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateView(currentIndex);
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateView(currentIndex);
+    });
+
+    shareBtn.addEventListener("click", () => {
+      const img = images[currentIndex];
+      const shareUrl = `${window.location.origin}${window.location.pathname}?src=${img.src}`;
+      if (navigator.share) {
+        navigator.share({ title: img.title, text: img.desc, url: shareUrl })
+          .catch(err => console.log("Share failed:", err));
+      } else {
+        navigator.clipboard.writeText(shareUrl);
+        alert("Link copied to clipboard!");
+      }
+    });
+
+    let startX = 0;
+    imageEl.addEventListener("touchstart", (e) => startX = e.touches[0].clientX);
+    imageEl.addEventListener("touchend", (e) => {
+      let endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) document.getElementById("nextBtn").click();
+      if (endX - startX > 50) document.getElementById("prevBtn").click();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+    });
+
+    updateView(currentIndex);
+  </script>
+</body>
+</html>

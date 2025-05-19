@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="ARS AUREA - Luxury Interior and Exterior Designs merging classical artistry with modern living. Transforming spaces into masterpieces.">
+	<title>ARS AUREA</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<style>
+    html{
+      scroll-behavior: smooth;
+    }
+		.navitem {
+			color: #f5f0e1;
+		}
+		.navitem:hover {
+			color: #d3bbaa;
+		}
+		.nav-title {
+			color: #f5f0e1;
+			font-size: 30px;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			top: 50%;
+			transform: translate(-50%, -50%);
+			margin: 0;
+		}
+		nav{
+			position: sticky;
+      top: 0;
+      z-index: 1000;
+		}
+		#loader {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: #f5f0e1;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeOut 1s ease 3s forwards;
+    }
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 8px solid #ae892a;
+      border-top: 8px solid transparent;
+      border-radius: 50%;
+      animation: spin .3s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    body {
+      background-color: #f5f0e1;
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .film-carousel-wrapper {
+      position: relative;
+      padding: 40px 0;
+      background-color: #f5f0e1;
+      overflow: hidden;
+    }
+    
+    .film-carousel {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.5s ease;
+      will-change: transform;
+    }
+    
+    .film-frame {
+      flex: 0 0 80%;
+      opacity: 0.5;
+      transform: scale(0.85);
+      transition: all 0.5s ease;
+    }
+
+    .film-frame img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .film-frame.active {
+      transform: scale(1.05);
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .carousel-caption {
+      background-color: transparent;
+      border-radius: 10px;
+      padding: 10px 20px;
+      color: white;
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+
+    .top-caption {
+      top: 20px;
+      bottom: auto;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 3;
+      color: #333;
+    }
+
+    .nav-btn.prev {
+      left: 20px;
+    }
+
+    .nav-btn.next {
+      right: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .film-frame img {
+        height: 300px;
+      }
+      .carousel-caption {
+        font-size: 0.9rem;
+      }
+      .nav-title{
+      	font-size: 20px;
+      	position: static;
+      	transform: none;
+      	text-align: center;
+      	margin-top: 10px;
+      }
+      .aboutp {
+      	padding: 9px;
+        width: 90%;
+        margin: auto;
+        text-align: center;
+        font-size: 10px;
+      }
+      .img-gallery{
+      	height: 150px;
+        width: auto;
+      }
+      .carousel-caption h4 {
+      	font-size: 1rem;
+      }
+      .nav-btn{
+      	font-size: 30px;
+      }
+    }
+
+    .gallery {
+		  margin-top: 20px;
+	  }
+
+	  .gallery-btn {
+      position: relative;
+      display: block;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 1rem;
+    }
+
+	  .gallery-btn:hover .img-gallery{
+		  transform: scale(1.03);
+      box-shadow: 0 15px 30px rgba(65, 38, 31, 0.25);
+	  }
+
+	  .img-gallery {
+      width: 100%;
+      border-radius: 1rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 10px 20px rgba(65, 38, 31, 0.15);
+      display: block;
+      height: 500px;
+    }
+
+	  .img-gallery:hover {
+	  	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+	  }
+	  .design-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(65, 38, 31, 0.85), rgba(65, 38, 31, 0));
+      color: #fff;
+      padding: 1.5rem 1rem;
+      border-bottom-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      transition: background 0.3s ease;
+    }
+    .design-caption h4 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .design-caption p {
+      font-size: 1rem;
+      margin: 0;
+      line-height: 1.5;
+		}
+		.gallery-btn:hover .design-caption {
+		  background: linear-gradient(to top, rgba(65, 38, 31, 0.95), rgba(65, 38, 31, 0.1));
+		}
+    .contact-section {
+      background-color: #f5f0e1;
+      color: #41261f;
+    }
+
+    .contact-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      padding: 25px 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .contact-btn {
+      background: #41261f;
+      color: #fff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .contact-btn:hover {
+      background: #6a3d33;
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .contact-btn {
+        width: 100%;
+        font-size: 0.95rem;
+      }
+
+      .contact-card {
+        padding: 20px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+	 <div id="loader">
+    <div class="spinner"></div>
+  </div>
+  <div id="demo" class="carousel-fluid carousel slide carousel-fade" data-bs-ride="carousel" id="home">
+    <div class="film-carousel-wrapper">
+      <div class="film-carousel" id="filmCarousel">
+        <div class="film-frame active">
+          <img src="homepage1.jpg" alt="Slide 1">
+          <div class="carousel-caption top-caption">
+            <h4>"Where Golden Art Meets Modern Living."</h4>
+          </div>
+        </div>
+        <div class="film-frame">
+          <img src="homepage2.jpg" alt="Slide 2">
+          <div class="carousel-caption top-caption">
+            <h4>"Timeless Interiors. Eternal Beauty."</h4>
+          </div>
+        </div>
+        <div class="film-frame">
+          <img src="homepage3.jpg" alt="Slide 3">
+          <div class="carousel-caption top-caption">
+            <h4>"Design Woven with Legacy."</h4>
+          </div>
+        </div>
+        <div class="film-frame">
+          <img src="homepage1.jpg" alt="Slide 4">
+          <div class="carousel-caption top-caption">
+            <h4>"Living in the Language of Art."</h4>
+          </div>
+        </div>
+        <div class="film-frame">
+          <img src="homepage2.jpg" alt="Slide 5">
+          <div class="carousel-caption top-caption">
+            <h4>"Luxury Inspired by the Ancients."</h4>
+          </div>
+        </div>
+        <div class="film-frame">
+          <img src="homepage3.jpg" alt="Slide 6">
+          <div class="carousel-caption top-caption">
+            <h4>"Every Space, a Masterpiece."</h4>
+          </div>
+        </div>
+        <div class="film-frame">
+          <img src="homepage1.jpg" alt="Slide 7">
+          <div class="carousel-caption top-caption">
+            <h4>"Design is the New Classic."</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="nav-btn prev" onclick="slideCarousel(-1)">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="nav-btn next" onclick="slideCarousel(1)">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+	<nav class=" container-fluid navbar navbar-expand-sm sticky-top" style="background-color: #41261f;">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#home">
+				<img src="logoint1.png" alt="logo" style="width: 50px;" class="rounded-pill">
+			</a>
+			<p class="nav-title">ARS AUREA</p>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" style="background-color: #f5f0e1;">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link navitem" href="#about">ABOUT</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link navitem" href="#designs">DESIGNS</a>
+					</li>
+          <li class="nav-item">
+            <a class="nav-link navitem" href="#team">TEAM</a>
+          </li>
+					<li class="nav-item">
+						<a class="nav-link navitem" href="#contact">CONTACT</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<br>
+	<br>
+<div id="about" class="container my-5 position-relative" style="max-width: 100%; overflow: hidden;">
+  <img src="about.jpg" class="img-fluid w-100" style="object-fit: cover; height: 600px; opacity: 0.2;">
+  <div class="position-absolute top-50 start-50 translate-middle text-center px-3" style="color: #41261f; width: 90%;">
+    <h3><b>ABOUT US</b></h3>
+    <p class="aboutp">
+      <i>We are a visionary interior and exterior design firm dedicated to creating spaces that are not only visually stunning but also rich in meaning, comfort, and personality. With a deep appreciation for both form and function, we specialize in crafting tailored environments that reflect the unique identity and lifestyle of each client. From private residences to commercial spaces, our work spans a wide range of design styles—including modern minimalism, bohemian charm, rustic warmth, earthy organic textures, luxurious opulence, and timeless traditional elegance.  
+      <br><br>
+      Our team of passionate designers and architects approaches every project with a refined eye for detail and a strong sense of narrative. We offer end-to-end services—from spatial planning, material curation, lighting design, and custom furniture creation to landscape design, facade detailing, and outdoor styling. Whether it’s a serene, nature-inspired retreat, a bold and expressive modern home, or a heritage-inspired space rooted in tradition, we blend aesthetics with authenticity to deliver designs that are both beautiful and functional.  
+      <br><br>
+      Our exterior design services encompass everything from contemporary facades and structured landscaping to traditional courtyard layouts and elegant outdoor living areas. On the interior side, we create cohesive, layered environments that feel elevated yet personal—curating textures, colors, and forms that flow naturally and reflect the soul of the space.  
+      <br><br>
+      At ARS AUREA, design is more than decoration—it is storytelling through space. We combine classical inspiration with contemporary innovation, ensuring every project is a masterpiece of intention, creativity, and craftsmanship. With a client-first philosophy and a deep respect for the art of design, we strive to make every space we touch a timeless expression of beauty, identity, and lifestyle.</i>
+    </p>
+  </div>
+</div>
+<div id="designs" class="container-fluid text-center py-5 px-3" style="color: #41261f;">
+  <h3><b>DESIGNS</b></h3>
+  <div class="row row-cols-1 row-cols-md-2 g-4 gallery">
+    <div class="col">
+      <a href="exterior-gallery.html" class="text-decoration-none">
+        <div class="gallery-btn w-100 shadow rounded overflow-hidden" style="cursor: pointer;">
+          <img src="ext1.jpg" class="img-gallery img-fluid w-100" alt="Exterior Design">
+          <div class="design-caption text-center p-3">
+            <h4><b>EXTERIOR</b></h4>
+            <p>Elegant facades and thoughtful outdoor layouts for timeless exteriors.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a href="interior-gallery.html" class="text-decoration-none">
+        <div class="gallery-btn w-100 shadow rounded overflow-hidden" style="cursor: pointer;">
+          <img src="int1.jpg" class="img-gallery img-fluid w-100" alt="Interior Design">
+          <div class="design-caption text-center p-3">
+            <h4><b>INTERIOR</b></h4>
+            <p>Layered, luxurious spaces that reflect soul, comfort, and artistry.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container-fluid mt-5" id="team" style="background-color: #f5f0c5; padding-top: 30px; border-radius: 20px; padding-bottom: 30px;">
+  <div id="team" class="container-fluid py-5" style="background: linear-gradient(135deg, #f5f0c5 0%, #f5f0e1 100%); border-radius: 20px;">
+  <h3 class="text-center mb-5" style="color: #41261f;"><b>TEAM of ARS AUREA</b></h3>
+
+  <div id="teamCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#teamCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#teamCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#teamCarousel" data-bs-slide-to="2"></button>
+      <button type="button" data-bs-target="#teamCarousel" data-bs-slide-to="3"></button>
+    </div>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Aurelia Voss</b></h4>
+            <p class="mt-3" style="text-align: justify;">Aurelia Voss is the creative soul behind some of the most opulent interiors in Europe. Known for her ethereal blend of classical motifs and avant-garde elements, she crafts spaces that feel like modern-day cathedrals. Her work often incorporates rare marbles, gold-leaf detailing, and dramatic lighting, making every room a bold expression of luxury and art.</p>
+          </div>
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Leif Marten</b></h4>
+            <p class="mt-3" style="text-align: justify;">Leif Marten is a visionary exterior designer whose architecture is deeply rooted in harmony with nature. His structures seem to rise from the earth, integrating raw stone, reclaimed wood, and glass to form timeless silhouettes. Whether designing a clifftop villa or a city pavilion, Leif brings a sense of peace and permanence to every environment he touches.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Seraphina Khouri</b></h4>
+            <p class="mt-3" style="text-align: justify;"> Seraphina Khouri transforms interiors into poetic experiences. With a background in fine arts and textile design, she infuses her spaces with softness, layering velvet, silk, and hand-painted murals. Her designs often explore themes of femininity, light, and cultural nostalgia, making her a favorite among collectors and creative minds.</p>
+          </div>
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Theo Ardent</b></h4>
+            <p class="mt-3" style="text-align: justify;"> A master of structural storytelling, Theo Ardent crafts architectural exteriors that double as sculptural works. With a preference for monumental forms and minimalist detailing, his work balances grandeur with subtlety. Theo’s projects often include integrated water features and sensory materials, engaging both emotion and intellect.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Calista Reign</b></h4>
+            <p class="mt-3" style="text-align: justify;"> Calista Reign redefines interior sophistication through her signature “Modern Royalty” style—merging rich color palettes with sleek contemporary finishes. Known for her instinctive spatial flow and refined material curation, she transforms ordinary rooms into regal sanctuaries. Her interiors are favored by luxury hotels and high-end residences across the globe.</p>
+          </div>
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Dorian Vale</b></h4>
+            <p class="mt-3" style="text-align: justify;"> Dorian Vale is a boundary-pushing architect known for his futuristic facades and kinetic structures. His work lives at the intersection of art, science, and sustainability, often incorporating solar-responsive surfaces and adaptive materials. Dorian’s vision brings a bold, intelligent energy to every skyline he touches.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Eleni Navarro</b></h4>
+            <p class="mt-3" style="text-align: justify;"> A master of sensorial design, Eleni Navarro crafts interiors that invite serenity and introspection. Her spaces are built around organic movement, soothing earth tones, and biophilic elements. Every detail—from scent to acoustics—is thoughtfully considered, making her work feel like a retreat from the chaos of modern life.</p>
+          </div>
+          <div class="col-md-5 p-4 m-2" style="background-color: rgba(65, 38, 31, 0.8); border-radius: 16px; color: #f5f0e1;">
+            <h4 class="text-center"><b>Cassian Rhys</b></h4>
+            <p class="mt-3" style="text-align: justify;"> Cassian Rhys specializes in neoclassical revival, reinterpreting ancient forms with a modern soul. His exteriors feature columns, courtyards, and arcades—reimagined through contemporary materials like glass, bronze, and blackened steel. Cassian’s design language speaks to legacy, permanence, and the enduring beauty of structure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#teamCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</div>
+<div id="contact" class="container-fluid py-5" style="background: linear-gradient(135deg, #f5f0e1, #f5f0c5); border-radius: 20px; margin-top: 50px;">
+  <h3 class="text-center mb-4" style="color: #41261f;"><b>Contact ARS AUREA</b></h3>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form style="background-color: rgba(65, 38, 31, 0.85); padding: 30px; border-radius: 16px; color: #f5f0e1;">
+        <div class="mb-3">
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter your full name" required style="border-radius: 12px;">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter your email" required style="border-radius: 12px;">
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Your Message</label>
+          <textarea class="form-control" id="message" rows="4" placeholder="Tell us about your project..." required style="border-radius: 12px;"></textarea>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn" style="background-color: #d4af37; color: #41261f; border-radius: 12px; padding: 10px 30px;"><b>Send Message</b></button>
+        </div>
+      </form>
+
+      <div class="text-center mt-4">
+        <p style="color: #41261f; font-weight: bold;">Follow Us</p>
+        <a href="https://www.instagram.com/ars_aurea_" target="_blank" style="margin: 0 10px; color: #41261f; font-size: 28px;">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://wa.me/+918921394901" target="_blank" style="margin: 0 10px; color: #41261f; font-size: 28px;">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+  <script>
+    let currentIndex = 0;
+    let autoSlide;
+    const frames = document.querySelectorAll('.film-frame');
+    const carousel = document.getElementById('filmCarousel');
+    const firstClone = frames[0].cloneNode(true);
+    const lastClone = frames[frames.length - 1].cloneNode(true);
+    firstClone.classList.remove('active');
+    lastClone.classList.remove('active');
+    carousel.appendChild(firstClone);
+    carousel.insertBefore(lastClone, frames[0]);
+    const allFrames = document.querySelectorAll('.film-frame');
+    let frameWidth = frames[0].offsetWidth + 20;
+    carousel.style.transform = 'translateX(-${frameWidth}px)';
+    function updateCarousel() {
+      allFrames.forEach(f => f.classList.remove('active'));
+      let realIndex = (currentIndex + frames.length) % frames.length;
+  allFrames[realIndex + 1].classList.add('active');
+
+  const offset = (realIndex + 1) * frameWidth - (carousel.offsetWidth / 2) + (frames[0].offsetWidth / 2);
+  carousel.style.transition = "transform 0.5s ease";
+  carousel.style.transform = `translateX(-${offset}px)`;
+}
+
+function slideCarousel(direction) {
+  currentIndex += direction;
+  updateCarousel();
+
+  // Smooth fake loop
+  carousel.addEventListener('transitionend', checkIndex);
+  resetAutoplay();
+}
+
+function checkIndex() {
+  carousel.removeEventListener('transitionend', checkIndex);
+
+  if (currentIndex < 0) {
+    carousel.style.transition = "none";
+    currentIndex = frames.length - 1;
+    const offset = (currentIndex + 1) * frameWidth - (carousel.offsetWidth / 2) + (frames[0].offsetWidth / 2);
+    carousel.style.transform = `translateX(-${offset}px)`;
+  }
+
+  if (currentIndex >= frames.length) {
+    carousel.style.transition = "none";
+    currentIndex = 0;
+    const offset = (currentIndex + 1) * frameWidth - (carousel.offsetWidth / 2) + (frames[0].offsetWidth / 2);
+    carousel.style.transform = `translateX(-${offset}px)`;
+  }
+}
+
+function startAutoplay() {
+  autoSlide = setInterval(() => slideCarousel(1), 3000);
+}
+function resetAutoplay() {
+  clearInterval(autoSlide);
+  startAutoplay();
+}
+
+window.addEventListener('load', () => {
+  updateCarousel();
+  startAutoplay();
+  window.addEventListener('resize', () => {
+    frameWidth = frames[0].offsetWidth + 20;
+    updateCarousel();
+  });
+});
+
+let startX = 0;
+carousel.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+}, { passive: true });
+carousel.addEventListener('touchmove', e => {
+  if (!startX) return;
+  let endX = e.touches[0].clientX;
+  let diff = startX - endX;
+  if (Math.abs(diff) > 50) {
+    slideCarousel(diff > 0 ? 1 : -1);
+    startX = 0;
+  }
+}, { passive: true });
+  </script>
+</body>
+</html>

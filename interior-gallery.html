@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Interior Designs | ARS AUREA</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<style>
+		body {
+			background-color: #f5f0e1;
+		}
+		.gallery-btn {
+			position: relative;
+			display: block;
+			background-color: transparent;
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			overflow: hidden;
+			border-radius: 1rem;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+		.gallery-btn:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 20px 40px rgba(65, 38, 31, 0.25);
+		}
+		.img-gallery {
+			width: 100%;
+			border-radius: 1rem;
+			transition: transform 0.5s ease;
+			box-shadow: 0 10px 20px rgba(65, 38, 31, 0.15);
+			display: block;
+			height: 350px;
+			object-fit: cover;
+		}
+		.gallery-btn:hover .img-gallery {
+			transform: scale(1.05);
+		}
+		.design-caption {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: linear-gradient(to top, rgba(65, 38, 31, 0.85), rgba(65, 38, 31, 0));
+			color: #fff;
+			padding: 1.5rem 1rem;
+			border-bottom-left-radius: 1rem;
+			border-bottom-right-radius: 1rem;
+			transition: background 0.3s ease;
+		}
+		.gallery-btn:hover .design-caption {
+			background: linear-gradient(to top, rgba(65, 38, 31, 0.9), rgba(65, 38, 31, 0.2));
+		}
+		.design-caption h4 {
+			font-size: 1.5rem;
+			margin-bottom: 0.5rem;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body class="bg-100 p-4">
+	<nav class="navbar sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html#home">
+      <img src="logoint1.png" alt="ARS AUREA Logo" style="width: 50px;" class="rounded-pill">
+      <p style="color: #41261f; position: relative;float: left;">HOME</p>
+    </a>
+  </div>
+</nav>
+
+	<h3 class="text-3xl font-bold text-center mb-8" style="color: #41261f;">Interior</h3>
+
+	<div class="flex flex-col md:flex-row md:overflow-x-auto gap-4 gallery">
+		<div class="w-full md:w-80 flex-shrink-0">
+			<a href="iliving-gallery.html" class="text-decoration-none">
+				<div class="gallery-btn w-full">
+					<img src="liv1.jpg" class="img-gallery" alt="Living Room">
+					<div class="design-caption text-center">
+						<h4><b>LIVING ROOM</b></h4>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="w-full md:w-80 flex-shrink-0">
+			<a href="ikitchen-gallery.html" class="text-decoration-none">
+				<div class="gallery-btn w-full">
+					<img src="kit1.jpg" class="img-gallery" alt="Kitchen">
+					<div class="design-caption text-center">
+						<h4><b>KITCHEN</b></h4>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="w-full md:w-80 flex-shrink-0">
+			<a href="ibedroom-gallery.html" class="text-decoration-none">
+				<div class="gallery-btn w-full">
+					<img src="bed1.jpg" class="img-gallery" alt="Bedroom">
+					<div class="design-caption text-center">
+						<h4><b>BEDROOM</b></h4>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="w-full md:w-80 flex-shrink-0">
+			<a href="ibathroom-gallery.html" class="text-decoration-none">
+				<div class="gallery-btn w-full">
+					<img src="bat1.jpg" class="img-gallery" alt="Bathroom">
+					<div class="design-caption text-center">
+						<h4><b>BATHROOM</b></h4>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="w-full md:w-80 flex-shrink-0">
+			<a href="iother-gallery.html" class="text-decoration-none">
+				<div class="gallery-btn w-full">
+					<img src="oint1.jpg" class="img-gallery" alt="Other Interior Designs">
+					<div class="design-caption text-center">
+						<h4><b>OTHER INTERIOR DESIGNS</b></h4>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+		<footer class="text-center mt-10 p-4" style="background-color: #41261f; color: #f5f0e1; border-radius: 10px;">
+		  <p>Follow Us</p>
+		  <div class="flex justify-center gap-6 my-3">
+		    <a href="https://instagram.com/ars_aurea_" target="_blank" class="text-[#f5f0e1] text-2xl hover:text-[#d4af37]">
+		      <i class="fab fa-instagram"></i>
+		    </a>
+		    <a href="https://wa.me/+918921394901" target="_blank" class="text-[#f5f0e1] text-2xl hover:text-[#d4af37]">
+		      <i class="fab fa-whatsapp"></i>
+		    </a>
+		  </div>
+		  <p style="font-size: 14px;">© 2025 ARS AUREA. All rights reserved.</p>
+		</footer>
+</body>
+</html>

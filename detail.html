@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exterior Design Detail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f5f0e1;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+  <nav class="sticky top-0 p-4">
+    <div class="flex items-center">
+      <a href="index.html#home" class="flex items-center space-x-2">
+        <img src="logoint1.png" alt="ARS AUREA Logo" class="rounded-full w-12">
+        <p style="position: relative; float: left;">HOME</p>
+      </a>
+    </div>
+  </nav>
+  <br>
+  <div class="max-w-4xl w-full">
+    <div class="relative overflow-hidden">
+      <img id="image" src="" alt="Image Detail" class="h-[500px] w-auto mx-auto rounded-xl shadow-xl transition-all duration-300" />
+      <button id="prevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/60 text-white p-3 rounded-full shadow hover:bg-black/80 transition"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+      <button id="nextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/60 text-white p-3 rounded-full shadow hover:bg-black/80 transition"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="mt-6 text-center">
+      <h2 id="title" class="text-2xl font-bold" style="color:#41261f"></h2>
+      <p id="desc" class="text-gray-600 mt-2" style="font-style: italic;"></p>
+      <button id="shareBtn" class="mt-4 px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
+        Share This Image
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      { src: 'homepage1.jpg', title: 'Exterior 1', desc: 'A beautiful exterior design' },
+      { src: 'homepage3.jpg', title: 'Exterior 2', desc: 'Modern home facade' },
+      { src: 'homepage4.jpg', title: 'Exterior 3', desc: 'Contemporary villa style' },
+      { src: 'homepage7.jpg', title: 'Exterior 4', desc: 'Live in your dreams'},
+      { src: 'ext1.jpg', title: 'Exterior 5', desc: 'Modern lines meet timeless materials'},
+      { src: 'gext1.jpg', title: 'Exterior 6', desc: 'Nature blends beautifully with architecture'},
+      { src: 'gext2.jpg', title: 'Exterior 7', desc: 'Bold facades make unforgettable impressions'},
+      { src: 'gext3.jpg', title: 'Exterior 8', desc: 'Simplicity is the ultimate sophistication'},
+      { src: 'gext4.jpg', title: 'Exterior 9', desc: 'Geometry creates visual harmony'},
+      { src: 'gext5.jpg', title: 'Exterior 10', desc: 'A perfect balance of stone and wood'},
+      { src: 'gext1.jpg', title: 'Exterior 11', desc: 'Open spaces elevate the exterior charm'},
+      { src: 'gext2.jpg', title: 'Exterior 12', desc: 'Curves soften the structure’s stance'},
+      { src: 'gext3.jpg', title: 'Exterior 13', desc: 'Light and shadow play across textured walls'},
+      { src: 'gext4.jpg', title: 'Exterior 14', desc: 'Clean contours and lush landscaping unite'},
+      { src: 'gext5.jpg', title: 'Exterior 15', desc: 'Glass panels invite the outdoors in'},
+      { src: 'gext1.jpg', title: 'Exterior 16', desc: 'Heritage meets modern elegance'},
+      { src: 'gext2.jpg', title: 'Exterior 17', desc: 'Minimalist yet inviting'},
+      { src: 'gext3.jpg', title: 'Exterior 18', desc: 'Where symmetry meets creativity'},
+      { src: 'gext4.jpg', title: 'Exterior 19', desc: 'Earth tones ground the design in nature'},
+      { src: 'gext5.jpg', title: 'Exterior 20', desc: 'Sculptural forms stand boldly'},
+     
+    ];
+    
+    const params = new URLSearchParams(window.location.search);
+    const startSrc = params.get("src");
+    let currentIndex = images.findIndex(img => img.src === startSrc);
+    if (currentIndex === -1) currentIndex = 0;
+
+    const imageEl = document.getElementById("image");
+    const titleEl = document.getElementById("title");
+    const descEl = document.getElementById("desc");
+    const shareBtn = document.getElementById("shareBtn");
+
+    function updateView(index) {
+      const img = images[index];
+      imageEl.src = img.src;
+      titleEl.textContent = img.title;
+      descEl.textContent = img.desc;
+    }
+
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateView(currentIndex);
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateView(currentIndex);
+    });
+
+    shareBtn.addEventListener("click", () => {
+      const img = images[currentIndex];
+      const shareUrl = `${window.location.origin}${window.location.pathname}?src=${img.src}`;
+      if (navigator.share) {
+        navigator.share({ title: img.title, text: img.desc, url: shareUrl })
+          .catch(err => console.log("Share failed:", err));
+      } else {
+        navigator.clipboard.writeText(shareUrl);
+        alert("Link copied to clipboard!");
+      }
+    });
+
+    let startX = 0;
+    imageEl.addEventListener("touchstart", (e) => startX = e.touches[0].clientX);
+    imageEl.addEventListener("touchend", (e) => {
+      let endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) document.getElementById("nextBtn").click();
+      if (endX - startX > 50) document.getElementById("prevBtn").click();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+    });
+
+    updateView(currentIndex);
+  </script>
+</body>
+</html>
